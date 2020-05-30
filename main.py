@@ -7,6 +7,7 @@ import datetime
 import json
 import sys
 
+
     
 try:
     i2c = I2C(SCL, SDA)
@@ -34,5 +35,3 @@ except OSError:
 
 except ValueError:
     print("Error occured. Maybe no sensor connected?")
-except RuntimeError:
-    pass
