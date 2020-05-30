@@ -7,19 +7,22 @@ import datetime
 import json
 import sys
 
+from retry import retry
 
-    
-try:
+@retry(delay=1)
+def connect():
     i2c = I2C(SCL, SDA)
     sensor = adafruit_si7021.SI7021(i2c)
+    return i2c, sensor
+    
+    
+try:
+    i2c, sensor = connect()
 
     JSON_Path = "./temp.json"
 
     if (len(sys.argv)-1) :
         JSON_Path = sys.argv[1]
-
-    print("Writing to", JSON_Path)
-
 
     data = {
         "temperature": sensor.temperature,
@@ -29,9 +32,8 @@ try:
 
     with open(JSON_Path, 'w') as f:
         json.dump(data, f, indent=4)
-
-except OSError:
-    print("Error occured. Maybe no sensor connected?")
-
+    
+        print("Written to", JSON_Path)
+    
 except ValueError:
     print("Error occured. Maybe no sensor connected?")
