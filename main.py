@@ -9,7 +9,7 @@ import sys
 
 from retry import retry
 
-@retry(delay=1)
+@retry(tries=10, delay=1)
 def connect():
     i2c = I2C(SCL, SDA)
     sensor = adafruit_si7021.SI7021(i2c)
