@@ -1,24 +1,22 @@
+import board
 import adafruit_si7021
-
-from busio import I2C
-from board import SCL, SDA
 
 import datetime
 import json
-import sys
+import sys, time
 
-from retry import retry
+#from retry import retry
 
-@retry(tries=10, delay=1)
-def connect():
-    i2c = I2C(SCL, SDA)
-    sensor = adafruit_si7021.SI7021(i2c)
-    return i2c, sensor
+#@retry(tries=10, delay=1)
+#def connect():
+#    return i2c, sensor
     
     
 try:
-    i2c, sensor = connect()
-
+    #i2c, sensor = connect()
+    
+    sensor = adafruit_si7021.SI7021(board.I2C())
+    time.sleep(1)
     JSON_Path = "./temp.json"
 
     if (len(sys.argv)-1) :
